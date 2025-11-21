@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avi's Highlight Intro - One Cycle & Click Restart</title>
+    <title>Avi's Highlight Intro - One Cycle & Click Restart (Responsive)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
@@ -15,36 +15,57 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #ffffff;
+            background-color: #f8f8f8;
             padding: 20px;
-            cursor: pointer; /* Suggests clicking will do something */
+            cursor: pointer;
         }
 
         #avi-intro {
-            /* Use the Roboto font */
             font-family: 'Roboto', sans-serif; 
-            font-size: 2.8em; /* Slightly larger font size for a headline */
-            font-weight: 700; /* Bold text */
-            color: #2c3e50; /* Dark text color */
+            /* *** שינוי מרכזי 1: שימוש ביחידת 'vw' לגודל גופן יחסי *** */
+            font-size: 4.5vw; 
+            font-weight: 700;
+            color: #2c3e50;
             max-width: 900px;
             text-align: center;
-            line-height: 1.4; /* Line spacing */
+            line-height: 1.4;
         }
 
         #avi-intro span {
-            /* Allows padding and correct spacing for each word */
             display: inline-block;
-            /* Smooth transition for the color change */
             transition: background-color 0.2s, color 0.2s, padding 0.1s, border-radius 0.2s; 
-            white-space: pre; /* Preserves white space between words */
+            white-space: pre;
         }
 
         /* Highlight style */
         .highlight {
-            background-color: #3498db; /* Blue highlight color */
-            color: white; /* White text on highlighted background */
-            padding: 1px 1px; /* Padding around the word */
-            border-radius: 6px; /* Rounded corners */
+            background-color: #3498db;
+            color: white;
+            padding: 1px 1px;
+            border-radius: 6px;
+        }
+
+        /* --- MEDIA QUERY FOR MOBILE DEVICES --- */
+        /* *** שינוי מרכזי 2: גודל גופן ספציפי למסכי מובייל *** */
+        @media (max-width: 600px) {
+            
+            body {
+                /* מקטין את הריפוד סביב הכותרת במובייל */
+                padding: 10px; 
+            }
+            
+            #avi-intro {
+                /* במקום 4.5vw, מחזירים לגודל קבוע המתאים יותר למובייל */
+                font-size: 1.6em; 
+                /* מבטיח שהכותרת תשתמש בכל הרוחב הפנוי */
+                max-width: 100%; 
+            }
+
+            .highlight {
+                /* מבטל את הריפוד הפנימי של הריבוע הכחול אם הוא נראה גס מדי במובייל */
+                padding: 0; 
+                border-radius: 4px;
+            }
         }
     </style>
 </head>
@@ -59,14 +80,12 @@
             const words = document.querySelectorAll('#avi-intro span');
             let index = 0;
             const delay = 400; // Highlight duration for each word
-            let intervalId = null; // Variable to manage the repeating timer (New)
+            let intervalId = null;
 
-            // Function to remove all highlights from all words (New)
             function removeAllHighlights() {
                 words.forEach(word => word.classList.remove('highlight'));
             }
 
-            // The main animation loop function (Modified)
             function highlightNextWord() {
                 if (words.length === 0) {
                     return;
@@ -90,7 +109,6 @@
                 index++; 
             }
 
-            // Function to start the animation cycle (New)
             function startHighlightCycle() {
                 // Only start if the animation is currently stopped
                 if (intervalId === null) {
@@ -103,10 +121,9 @@
             }
 
             // 1. Initial run on page load
-            // Use setTimeout to ensure DOM is ready, then call the cycle starter
             setTimeout(startHighlightCycle, 50); 
             
-            // 2. Restart the animation on any click on the document (New)
+            // 2. Restart the animation on any click on the document
             document.addEventListener('click', function() {
                 startHighlightCycle();
             });
